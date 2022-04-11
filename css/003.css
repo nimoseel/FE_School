@@ -1,0 +1,6 @@
+@import "003_ex.css";
+/* 이 css에서 다른 css를 포함하고 싶을 때 */
+
+p {
+  background-color: red;
+}
