@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // class Robot {
+
+        //     constructor(name) {
+        //         this.name = name;
+        //     }
+
+        //     sayYourName() {
+        //         console.log(`삐리비리. 제 이름은 ${this.name}입니다. 주인님.`);
+        //     }
+        // }
+
+        // const bot = new Robot('smith');
+
+        // bot.name // smith
+
+
+        class Robot {
+            #password
+
+            constructor(name, pw) {
+                this.name = name;
+                this.#password = pw;
+            }
+
+
+            sayYourName() {
+                console.log(`삐리비리. 제 이름은 ${this.name}입니다. 주인님.`);
+            }
+
+            // getPassword() {
+            //     return this.#password
+            // }
+
+            // setPassword(pw, pw2) {
+            //     this.#password = pw;
+            //     this.#password2 = pw2;
+            // }
+
+            get password() {
+                return this.#password
+            }
+
+            set password(pw) {
+                this.#password = pw;
+            }
+        }
+
+        const bot = new Robot('재현', 'q1w2e3');
+    </script>
+</body>
+
+</html>
+
+값 불러오는게 게터
+값 수정하는게 세터 
+
+겟 셋 사용하면 비공개 프로퍼티에 너무 쉽게 접근할 수 있다. 
+
+기능부터 구현하는 게 아니라, 역으로 컨셉 단위로 머리속에 큰 그림을 그리고 그걸 역으로 쪼개서 구현하는게 추상화 -> 구현 이라고 보시면 되어용
+
+
+
+
+간단한 투두 리스트기능 구현해보기
+1. 해야할 일 Todo 클래스(내용, 상태 두 가지 프로퍼티를 가집니다.)
+2. Todo 클래스는 상태를 변경하는 changeState 메서드를 가집니다.
+3. 할일의 목록을 관리하는 관리자를 추상화한 TodoManager 클래스 (할일 목록을 프로퍼티로 가집니다.)
+4. 할 일을 저장하고(addItem), 할 일의 목록을 보여주며(getItems), 할 일의 남은 갯수를 반환하는(getLeftTodoCount) 세 가지 메소드를 가집니다.
+
