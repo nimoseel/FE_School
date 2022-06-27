@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>회원가입</title>
+</head>
+
+<body>
+    <div id="root">
+        <section class="email-pw"  style="display:none">
+            <h2 class="main-title">이메일로 회원가입</h2>
+            <div class="input-container">
+                <label for="emailInput">이메일</label>
+                <input type="email" id="emailInput" data-state="0" placeholder="이메일 주소를 알려주세요.">
+            </div>
+            <div class="input-container input-container-pw">
+                <label for="passwordInput">비밀번호</label>
+                <input type="password" id="passwordInput" data-state="0" placeholder="비밀번호를 설정해 주세요.">
+            </div>
+            <button type="button" class="next-btn">다음</button>
+        </section>
+
+        <section class="profile">
+            <h2 class="main-title join-profile-title">프로필 설정</h2>
+            <p class="profile-info-txt">나중에 언제든지 변경할 수 있습니다.</p>
+            <label for="profileImg">
+                <img src="http://146.56.183.55:5050/Ellipse.png" alt="" srcset="" id="imagePre">
+            </label>
+            <input type="file" id="profileImg" name="profile-img" accept="image/*" class="ir" />
+            <div class="input-container">
+                <label for="userNameInput">사용자 이름</label>
+                <input type="text" id="userNameInput" data-state="0" placeholder="2~10자 이내여야 합니다.">
+            </div>
+            <div class="input-container">
+                <label for="userIdInput">계정 ID</label>
+                <input type="text" id="userIdInput" data-state="0" placeholder="영문, 숫자, 특수문자(,), (_)만 사용 가능합니다.">
+            </div>
+            <div class="input-container input-container-intro">
+                <label for="userIntroInput">소개</label>
+                <input type="text" id="userIntroInput" data-state="1" placeholder="자신과 판매할 상품에 대해 소개해 주세요.">
+            </div>
+            <button type="button" class="submit-btn">감귤마켓 시작하기</button>
+        </section>
+    </div>
+</body>
+<script>
+    const mainURL = "https://mandarin.api.weniv.co.kr";
+    const nextBtn = document.querySelector("#root > section.email-pw > button")
+    const firstSec = document.querySelector("#root > section.email-pw");
+    const secondSec = document.querySelector("#root > section.profile");
+
+    nextBtn.addEventListener('click', nextPage);
+
+    async function nextPage(){
+        const email = document.querySelector("#emailInput").value;
+        const pw = document.querySelector("#passwordInput").value;
+
+        // 이메일 검증 통과 => true
+        // 비밀번호 검증 => true
+        // 둘다 true면 두번째 섹션을 display block으로 바꿔주기 
+
+        const emailCheckResult = await emailCheck(email)
+        const pwCheckResult = await pwCheck(pw)
+
+        async function emailCheck(email){
+            const url = mainURL+"/user/emailvalid";
+
+            const reqData ={
+                "user":{
+				"email": email
+		    }
+        }
+
+            const response = await fetch(url, {
+                method : "POST",
+                headers :{
+                    "Content-type" : "application/json"
+                },
+                body: JSON.stringify(reqData)
+            })
+            const result = await response.json()
+            const message = result.message
+
+            console.log(message)
+
+            if(message === "사용 가능한 이메일 입니다."){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        async function pwCheck(pw){
+            return true;
+        };
+
+        if(emailCheckResult && pwCheckResult){
+            firstSec.style.display = "none";
+            secondSec.style.display ="block";
+        };
+    }
+
+
+        //섹션2
+        const fileSelectBtn = document.querySelector("#profileImg");
+        const thumbnailImg = document.querySelector("#imagePre");
+
+        fileSelectBtn.addEventListener("change", uploadImage)
+
+        async function uploadImage(e){
+            const url = mainURL+"/image/uploadfile"
+            //e.target.value
+            //e.target.files
+            console.log(e.target.files[0])
+
+            const file = e.target.files[0];
+
+            const formData = new FormData();
+            formData.append("image",file)
+        
+
+        const response = await fetch(url, {
+            method: "POST",
+            body : formData
+        })
+        console.log(response)
+        
+        const json = await response.json()
+        console.log(json)// 서버에서 보내준 정보
+
+
+        const filename = json.filename;
+        console.log(filename)
+
+        const imgURL = mainURL +"/"+ filename;
+        console.log(imgURL)
+
+        thumbnailImg.src = imgURL
+    }
+</script>
+</html>
