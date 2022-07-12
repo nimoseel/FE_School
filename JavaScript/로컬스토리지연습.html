@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로컬스토리지</title>
+</head>
+<body>
+    <p></p>
+    <button>지우기</button>
+    <input type="text" name="" id="">
+    <select name="" id="">
+        <option value="red">빨간색</option>
+        <option value="blue">파란색</option>
+        <option value="green">초록색</option>
+    </select>
+    <script> 
+            const p = document.querySelector('p')
+            const button = document.querySelector('button')
+            const input = document.querySelector('input')
+            const select =document.querySelector('select')
+
+            const key = localStorage.getItem('키')
+            const color = localStorage.getItem('color')
+            if(key !== null){
+            p.textContent = `이전 실행 때의 마지막 값 : ${key}`
+            input.value = key
+            }
+
+            if (color !== null){
+                document.body.style.backgroundColor = color
+                select.value = color
+            }else{
+                document.body.style.backgroundColor='red'
+            }
+
+            button.addEventListener('click',()=>{
+                //버튼 누르면 저장된 모든 값 제거 
+                localStorage.clear()
+            })
+            input.addEventListener('keyup',() =>{
+                //인풋창 keyup하면 키값에 input.value저장
+                localStorage.setItem('키', input.value)
+            })
+            select.addEventListener('change',()=>{
+                const color = select.options[select.selectedIndex].value
+                document.body.style.backgroundColor = color
+                // 드롭다운 선택하면 컬러키값에 컬러값 저장
+                localStorage.setItem('color',color)
+            })
+
+    </script>
+</body>
+</html>
