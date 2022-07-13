@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+    <script>
+        function* 순서(){
+            try{
+                yield '1번';
+                yield '2번';
+                yield '3번';
+                yield '4번';
+            }catch (e) {
+                console.log(e);
+        }
+    }
+const 제너레이터 = 순서();
+
+console.log(제너레이터.next());
+console.log(제너레이터.return('종료!'));
+console.log(제너레이터.next());
+
+// console.log(제너레이터.next());
+// console.log(제너레이터.throw('에러던져요!'));
+// console.log(제너레이터.next());
+
+    </script>
+</body>
+</html>
